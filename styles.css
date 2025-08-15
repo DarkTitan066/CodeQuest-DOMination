@@ -1,0 +1,32 @@
+
+body {
+  background-color: rgb(255, 255, 255);
+  color: rgb(97, 97, 97);
+  font-family: Arial, sans-serif;
+  margin: auto;
+}
+
+.quiz-results {
+  background-color: rgb(240, 240, 240);
+  border: 1px solid rgb(200, 200, 200);
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.question-one ,.question-two ,.question-three ,.question-four ,.question-five {
+  background-color: rgb(240, 240, 240);
+  border: 1px solid rgb(200, 200, 200);
+  padding: 20px;
+  margin: auto;
+  width: 50%;
+  margin-top: 20px;
+}
+
+.quiz-intro {
+  background-color: rgb(240, 240, 240);
+  border: 1px solid rgb(200, 200, 200);
+  padding: 20px;
+  margin: auto;
+  width: 50%;
+  margin-top: 20px;
+}
