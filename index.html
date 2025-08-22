@@ -4,75 +4,177 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Assignment: CodeQuest: DOMination</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<!-- quiz question one that tests the user's knowledge of the DOM multiple choice -->
-<div class="quiz-intro">
-<h3>Knowledge Check for the DOM</h3>
-<P>Are you ready to test your knowledge of the DOM?</P>
-<button id="start-quiz">Start Quiz</button>
-</div>  
+<div id="quiz-container">
+  <h1>DOMination Quiz</h1>
+  <div id="quiz-content">
+    <div id="question-container"></div>
+    <div id="score-container"></div>
+    <button id="next-question">Next Question</button>
+    <button id="submit-quiz">Submit Quiz</button>
+    <button id="restart-quiz">Restart Quiz</button>
+  </div>
+</div>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #006c9e;
+  }
+  #quiz-container {
+    width: 50%;
+    min-width: 320px;
+    max-width: 500px;
+    margin: 40px auto 0 auto;
+    padding: 20px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 {
+    text-align: center;
+  }
+  #question-container {
+    margin-bottom: 20px;
+  }
+  #score-container {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+  #score-container.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #6200ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+  button:hover {
+    background-color: #00a3cc;
+  }
+</style>
+<script>
+  const questions = [
+    {
+      question: "What does DOM stand for?",
+      options: ["Document Object Model", "Data Object Model", "Document Orientation Model"],
+      answer: 0
+    },
+    {
+      question: "Which method is used to select an element by its ID?",
+      options: ["getElementById()", "querySelector()", "getElementsByClassName()"],
+      answer: 0
+    },
+    {
+      question: "How do you create a new element in the DOM?",
+      options: ["document.createElement()", "document.newElement()", "document.addElement()"],
+      answer: 0
+    },
+    {
+      question: "Which property is used to change the text content of an element?",
+      options: ["innerHTML", "textContent", "innerText"],
+      answer: 1
+    },
+    {
+      question: "How do you remove an element from the DOM?",
+      options: ["element.remove()", "document.removeElement()", "element.delete()"],
+      answer: 0
+    }
+  ];
+  let currentQuestionIndex = 0;
+  let answered = false;
 
-<div class="question-one">
-  <h2>Question 1</h2>
-  <p>What does DOM stand for?</p>
-  <ul>
-    <li><input type="radio" name="q1" value="1" required> Document Object Model</li>
-    <li><input type="radio" name="q1" value="2" required> Data Object Model</li>
-    <li><input type="radio" name="q1" value="3" required> Document Orientation Model</li>
-  </ul>
-  <button id="next-question">Next Question</button>
-</div>
-<!-- quiz question two that tests the user's knowledge of the DOM multiple choice -->
-<div class="question-two">
-  <h2>Question 2</h2>
-  <p>Which method is used to select an element by its ID in the DOM?</p>
-  <ul>
-    <li><input type="radio" name="q2" value="1" required> getElementById()</li>
-    <li><input type="radio" name="q2" value="2" required> querySelector()</li>
-    <li><input type="radio" name="q2" value="3" required> getElementsByClassName()</li>
-  </ul>
-  <button id="previous-question">Previous Question</button>
-  <button id="next-question">Next Question</button>
-</div>
-<!-- quiz question three that tests the user's knowledge of the DOM multiple choice -->
-<div class="question-three">
-  <h2>Question 3</h2>
-  <p>What does the method querySelector() do?</p>
-  <ul>
-    <li><input type="radio" name="q3" value="1" required> Selects all elements that match a CSS selector</li>
-    <li><input type="radio" name="q3" value="2" required> Selects the first element that matches a CSS selector</li>
-    <li><input type="radio" name="q3" value="3" required> Selects elements by their tag name</li>
-  </ul>
-  <button id="previous-question">Previous Question</button>
-  <button id="next-question">Next Question</button>
-</div>
-<!-- quiz question four that tests the user's knowledge of the DOM multiple choice -->
-<div class="question-four">
-  <h2>Question 4</h2>
-  <p>Which property is used to get the text content of an element in the DOM?</p>
-  <ul>
-    <li><input type="radio" name="q4" value="1" required> innerHTML</li>
-    <li><input type="radio" name="q4" value="2" required> textContent</li>
-    <li><input type="radio" name="q4" value="3" required> innerText</li>
-  </ul>
-  <button id="previous-question">Previous Question</button>
-  <button id="next-question">Next Question</button>
-</div>
-<!-- quiz question five that tests the user's knowledge of the DOM multiple choice -->
-<div class="question-five">
-  <h2>Question 5</h2>
-  <p>What is the purpose of the DOM?</p>
-  <ul>
-    <li><input type="radio" name="q5" value="1" required> To represent the structure of a web page</li>
-    <li><input type="radio" name="q5" value="2" required> To style a web page</li>
-    <li><input type="radio" name="q5" value="3" required> To create a web page</li>
-  </ul>
-  <button id="previous-question">Previous Question</button>
-  <button id="submit-quiz">Submit Quiz</button>
-  <button id="restart-quiz">Restart Quiz</button>
-</div>
-<script src="script.js"></script>
+  const nextBtn = document.getElementById("next-question");
+  const submitBtn = document.getElementById("submit-quiz");
+  const restartBtn = document.getElementById("restart-quiz");
+  const scoreContainer = document.getElementById("score-container");
+  const quizContainer = document.getElementById("quiz-container");
+  const quizContent = document.getElementById("quiz-content");
+
+  function showQuestion(index) {
+    answered = false;
+    nextBtn.style.display = "none";
+    submitBtn.style.display = "none";
+    scoreContainer.style.display = "none";
+    const question = questions[index];
+    const questionContainer = document.getElementById("question-container");
+    questionContainer.innerHTML = "";
+
+    const questionText = document.createElement("p");
+    questionText.textContent = question.question;
+    questionContainer.appendChild(questionText);
+
+    question.options.forEach((option, i) => {
+      const button = document.createElement("button");
+      button.textContent = option;
+      button.onclick = () => {
+        if (!answered) {
+          answered = true;
+          questions[index].answeredCorrectly = (i === question.answer);
+          Array.from(questionContainer.querySelectorAll("button")).forEach(btn => btn.disabled = true);
+          if (currentQuestionIndex < questions.length - 1) {
+            nextBtn.style.display = "block";
+          } else {
+            submitBtn.style.display = "block";
+          }
+        }
+      };
+      questionContainer.appendChild(button);
+    });
+  }
+
+  nextBtn.onclick = () => {
+    currentQuestionIndex++;
+    restartBtn.style.display = "none";
+    showQuestion(currentQuestionIndex);
+  };
+
+  submitBtn.onclick = () => {
+    quizContainer.style.display = "block";
+    scoreContainer.classList.add("visible");
+    scoreContainer.style.display = "block";
+    showTotalScore();
+    restartBtn.style.display = "block";
+  };
+
+  restartBtn.onclick = () => {
+    currentQuestionIndex = 0;
+    questions.forEach(q => q.answeredCorrectly = false);
+    quizContainer.style.display = "block";
+    scoreContainer.classList.remove("visible");
+    restartBtn.style.display = "none";
+    showQuestion(currentQuestionIndex);
+  };
+
+  function showTotalScore() {
+    const totalScore = questions.reduce((acc, q) => acc + (q.answeredCorrectly ? 1 : 0), 0);
+    scoreContainer.innerHTML = `<h2>Your Score: ${totalScore} out of ${questions.length}</h2>`;
+  }
+  nextBtn.style.display = "none";
+  submitBtn.style.display = "none";
+  restartBtn.style.display = "none";
+  scoreContainer.classList.remove("visible");
+  showQuestion(currentQuestionIndex);
+  document.getElementById("quiz-container").style.display = "block";
+  scoreContainer.style.display = "none";
+  showQuestion(currentQuestionIndex);
+  quizContent.style.display = "block";
+
+
+</script>
 </body>
 </html>
